@@ -1,0 +1,28 @@
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+# Limit Resources in order to not block Raspberry Pi 3
+    mem_limit: 250m
+    cpus: 0.50
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Lisbon
+    volumes:
+      - ./config:/config
+      - /mnt/share/media/seriais:/data/seriais
+      - /mnt/share/media/filmes:/data/filmes
+      - /mnt/disk2/temp:/data/temp
+    labels:
+      - "watchtower.enable=true"
+    ports:
+      - 8096:8096
+#      - 8920:8920 #optional
+#      - 7359:7359/udp #optional
+#      - 1900:1900/udp #optional
+    devices:
+      - /dev/video10:/dev/video10 #optional
+      - /dev/video11:/dev/video11 #optional
+      - /dev/video12:/dev/video12 #optional
+    restart: no
